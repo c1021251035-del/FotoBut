@@ -1,5 +1,5 @@
 const Store = {
-  KEY: 'fotobut_state',
+  KEY: 'fotobut_wt',
 
   get(key, fallback = null) {
     try {
@@ -23,9 +23,5 @@ const Store = {
       delete data[key];
       localStorage.setItem(this.KEY, JSON.stringify(data));
     } catch (e) { console.warn('Store remove failed', e); }
-  },
-
-  clear() {
-    try { localStorage.removeItem(this.KEY); } catch {}
   }
 };

@@ -1,9 +1,8 @@
 const Export = {
   format: 'png',
   quality: 0.92,
-  scale: 1,
 
-  async download(canvas, filename = 'fotobut-moment') {
+  async download(canvas, filename = 'fotobut') {
     const ext = this.format === 'jpeg' ? 'jpg' : 'png';
     const blob = await this.toBlob(canvas);
     const url = URL.createObjectURL(blob);
@@ -19,16 +18,14 @@ const Export = {
   async share(canvas) {
     if (!navigator.share) return this.download(canvas);
     const blob = await this.toBlob(canvas);
-    const file = new File([blob], 'fotobut-moment.png', { type: 'image/png' });
+    const file = new File([blob], 'fotobut.png', { type: 'image/png' });
     try {
       await navigator.share({
         title: 'Fotobut',
-        text: 'My photobooth moment!',
+        text: 'My webcam effect!',
         files: [file]
       });
-    } catch (e) {
-      if (e.name !== 'AbortError') console.warn('Share failed:', e);
-    }
+    } catch (e) { if (e.name !== 'AbortError') console.warn(e); }
   },
 
   async toBlob(canvas) {

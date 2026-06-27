@@ -1,5 +1,5 @@
 const PhotoDB = {
-  DB_NAME: 'fotobut-gallery',
+  DB_NAME: 'fotobut_gallery',
   DB_VERSION: 1,
   STORE: 'photos',
   _db: null,
@@ -11,7 +11,7 @@ const PhotoDB = {
       req.onupgradeneeded = (e) => {
         const db = e.target.result;
         if (!db.objectStoreNames.contains(this.STORE)) {
-          const store = db.createObjectStore(this.STORE, { keyPath: 'id', autoIncrement: true });
+          const store = db.createObjectStore(this.STORE, { keyPath: 'id' });
           store.createIndex('timestamp', 'timestamp', { unique: false });
         }
       };
@@ -23,14 +23,11 @@ const PhotoDB = {
   async save(blob, meta = {}) {
     await this.open();
     const item = {
-      blob,
-      timestamp: Date.now(),
+      id: 'photo_' + Date.now(),
+      blob, timestamp: Date.now(),
+      effect: meta.effect || 'normal',
       width: meta.width || 0,
-      height: meta.height || 0,
-      filter: meta.filter || 'none',
-      template: meta.template || '',
-      isGif: meta.isGif || false,
-      type: meta.isGif ? 'image/gif' : 'image/png'
+      height: meta.height || 0
     };
     return new Promise((resolve, reject) => {
       const tx = this._db.transaction(this.STORE, 'readwrite');
@@ -45,20 +42,7 @@ const PhotoDB = {
     return new Promise((resolve, reject) => {
       const tx = this._db.transaction(this.STORE, 'readonly');
       const req = tx.objectStore(this.STORE).index('timestamp').getAll();
-      req.onsuccess = () => {
-        // Reverse: newest first
-        resolve(req.result.reverse());
-      };
-      req.onerror = () => reject(req.error);
-    });
-  },
-
-  async get(id) {
-    await this.open();
-    return new Promise((resolve, reject) => {
-      const tx = this._db.transaction(this.STORE, 'readonly');
-      const req = tx.objectStore(this.STORE).get(id);
-      req.onsuccess = () => resolve(req.result);
+      req.onsuccess = () => resolve(req.result.reverse());
       req.onerror = () => reject(req.error);
     });
   },
@@ -79,16 +63,6 @@ const PhotoDB = {
       const tx = this._db.transaction(this.STORE, 'readwrite');
       const req = tx.objectStore(this.STORE).clear();
       req.onsuccess = () => resolve(true);
-      req.onerror = () => reject(req.error);
-    });
-  },
-
-  async count() {
-    await this.open();
-    return new Promise((resolve, reject) => {
-      const tx = this._db.transaction(this.STORE, 'readonly');
-      const req = tx.objectStore(this.STORE).count();
-      req.onsuccess = () => resolve(req.result);
       req.onerror = () => reject(req.error);
     });
   }
