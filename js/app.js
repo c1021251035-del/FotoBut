@@ -21,6 +21,7 @@ const App = {
       downloadBtn: document.getElementById('btn-download'),
       shareBtn: document.getElementById('btn-share'),
       retakeBtn: document.getElementById('btn-retake'),
+      closeResultBtn: document.getElementById('btn-close-result'),
       galleryBtn: document.getElementById('btn-gallery'),
       galleryModal: document.getElementById('gallery-modal'),
       galGrid: document.getElementById('gal-grid'),
@@ -34,60 +35,56 @@ const App = {
       this.els.galEmpty, this.els.galClose
     );
 
-    // Camera
+    this._bind();
+    this._initEffects();
+
+    // Camera — try environment first, then user
     try {
+      if (!navigator.mediaDevices?.getUserMedia) throw new Error('getUserMedia tidak tersedia');
+      Camera.facing = 'user'; // user-facing lebih reliable di web
       await Camera.init(this.els.video);
+      console.log('Camera OK');
     } catch (e) {
-      this.els.stage.innerHTML = `
-        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px;text-align:center">
-          <div style="font-size:48px;margin-bottom:12px">📷</div>
-          <div style="font-size:18px;font-weight:600;margin-bottom:4px;color:#fff">Kamera tidak tersedia</div>
-          <div style="font-size:13px;color:#888;margin-bottom:16px">${e.message}</div>
-          <button onclick="location.reload()" style="background:#fff;color:#000;border:none;padding:12px 32px;border-radius:24px;font-size:16px;cursor:pointer">Coba Lagi</button>
-        </div>
-      `;
-      return;
+      console.warn('Camera init error:', e);
+      // Show tap-to-retry UI instead of blocking
+      this.els.effectName.textContent = '📷 Tap untuk kamera';
+      this.els.effectName.onclick = async () => {
+        try {
+          await Camera.init(this.els.video);
+          this.els.effectName.onclick = () => this._nextEffect();
+          this.els.effectName.textContent = Effects.list[Effects.current].name;
+        } catch (e2) {
+          this.els.effectName.textContent = '❌ Kamera gagal';
+        }
+      };
     }
 
-    this._bind();
     this._renderLoop();
-    this._initEffects();
   },
 
   _bind() {
     this.els.captureBtn.onclick = () => this.capture();
-    this.els.flipBtn.onclick = () => Camera.toggleFacing();
+    this.els.flipBtn.onclick = () => Camera.toggleFacing().catch(e => console.warn(e));
     this.els.flashBtn.onclick = () => this._doFlash();
     this.els.downloadBtn.onclick = () => Export.download(this.els.resultCanvas);
     this.els.shareBtn.onclick = () => Export.share(this.els.resultCanvas);
     this.els.retakeBtn.onclick = () => this.reset();
+    this.els.closeResultBtn.onclick = () => this.reset();
     this.els.galleryBtn.onclick = () => this.gallery.open();
-
-    // Effect cycling via indicator tap
     this.els.effectName.onclick = () => this._nextEffect();
-
-    // Slider for effect intensity
     this.els.effectSlider.oninput = () => {
       Effects.intensity = parseInt(this.els.effectSlider.value);
     };
 
-    // Keyboard
     document.addEventListener('keydown', e => {
-      if (e.code === 'Space' && this.mode === 'preview') {
-        e.preventDefault();
-        this.capture();
-      }
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-        const dir = e.key === 'ArrowRight' ? 1 : -1;
-        Effects.current = (Effects.current + dir + Effects.list.length) % Effects.list.length;
-        this._updateEffectUI();
-      }
+      if (e.code === 'Space' && !this.locked) { e.preventDefault(); this.capture(); }
+      if (e.key === 'ArrowRight') { Effects.current = (Effects.current + 1) % Effects.list.length; this._updateEffectUI(); }
+      if (e.key === 'ArrowLeft') { Effects.current = (Effects.current - 1 + Effects.list.length) % Effects.list.length; this._updateEffectUI(); }
+      if (e.key === 'Escape') { if (this.mode === 'result') this.reset(); }
     });
   },
 
-  _initEffects() {
-    this._updateEffectUI();
-  },
+  _initEffects() { this._updateEffectUI(); },
 
   _nextEffect() {
     Effects.current = (Effects.current + 1) % Effects.list.length;
@@ -97,7 +94,6 @@ const App = {
   _updateEffectUI() {
     const fx = Effects.list[Effects.current];
     this.els.effectName.textContent = fx.name;
-    // Show slider only for intensity-variable effects
     const hasIntensity = fx.id === 'blur' || fx.id === 'pixelate';
     this.els.effectSlider.style.display = hasIntensity ? '' : 'none';
     this.els.effectSlider.value = Effects.intensity;
@@ -111,15 +107,14 @@ const App = {
   },
 
   capture() {
-    if (this.locked || this.mode !== 'preview') return;
+    if (this.locked || !Camera.stream || this.mode !== 'preview') return;
     this.locked = true;
     this.mode = 'countdown';
-
     this.els.countdown.textContent = 3;
     this.els.countdown.classList.add('show');
 
-    Timer.countdown(3, (remaining) => {
-      this.els.countdown.textContent = remaining;
+    Timer.countdown(3, (r) => {
+      this.els.countdown.textContent = r;
       this.els.countdown.classList.add('pop');
       setTimeout(() => this.els.countdown.classList.remove('pop'), 200);
     }, () => {
@@ -129,34 +124,25 @@ const App = {
   },
 
   _doCapture() {
-    // Flash
     this._doFlash();
-
-    // Capture frame from current effect
     const captured = Engine.capture(Camera.video);
-
-    // Show result
-    this.mode = 'result';
-    const resultCtx = this.els.resultCanvas.getContext('2d');
+    const ctx = this.els.resultCanvas.getContext('2d');
     const w = captured.width, h = captured.height;
-    const dpr = window.devicePixelRatio || 1;
-    this.els.resultCanvas.width = w * dpr;
-    this.els.resultCanvas.height = h * dpr;
-    this.els.resultCanvas.style.width = w + 'px';
-    this.els.resultCanvas.style.height = h + 'px';
-    resultCtx.scale(dpr, dpr);
-    resultCtx.drawImage(captured, 0, 0, w, h);
+    this.els.resultCanvas.width = w;
+    this.els.resultCanvas.height = h;
+    this.els.resultCanvas.style.width = Math.min(w, window.innerWidth - 40) + 'px';
+    this.els.resultCanvas.style.height = 'auto';
+    ctx.drawImage(captured, 0, 0, w, h);
 
+    this.mode = 'result';
     this.els.stage.classList.add('hidden');
     this.els.resultPanel.classList.remove('hidden');
+    this.locked = false;
 
-    // Save to gallery
     Export.toBlob(this.els.resultCanvas).then(blob => {
       const fx = Effects.list[Effects.current];
       PhotoDB.save(blob, { effect: fx.name, width: w, height: h });
-    });
-
-    this.locked = false;
+    }).catch(() => {});
   },
 
   reset() {
@@ -168,8 +154,8 @@ const App = {
 
   _renderLoop() {
     const loop = () => {
-      if (this.mode === 'preview' && Camera.stream) {
-        Engine.draw(Camera.video);
+      if (this.mode === 'preview' && Camera.stream && Camera.video.readyState >= 2) {
+        try { Engine.draw(Camera.video); } catch (e) {}
       }
       requestAnimationFrame(loop);
     };
@@ -180,13 +166,12 @@ const App = {
 document.addEventListener('DOMContentLoaded', async () => {
   try { await App.boot(); }
   catch (e) {
-    console.error(e);
+    console.error('Boot error:', e);
     document.getElementById('stage').innerHTML = `
-      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px;text-align:center">
-        <div style="font-size:48px;margin-bottom:12px">⚠️</div>
-        <div style="font-size:18px;color:#fff;margin-bottom:16px">${e.message || 'Gagal memuat aplikasi'}</div>
-        <button onclick="location.reload()" style="background:#fff;color:#000;border:none;padding:12px 32px;border-radius:24px;font-size:16px;cursor:pointer">Coba Lagi</button>
-      </div>
-    `;
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:24px;text-align:center;color:#fff">
+        <div style="font-size:48px;margin-bottom:8px">⚠️</div>
+        <div style="margin-bottom:16px;font-size:14px;color:#aaa">${e.message || 'Gagal load'}</div>
+        <button onclick="location.reload()" style="background:#fff;color:#000;border:none;padding:10px 24px;border-radius:20px;font-size:14px;cursor:pointer">Coba Lagi</button>
+      </div>`;
   }
 });

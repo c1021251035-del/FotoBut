@@ -39,20 +39,14 @@ html, body {
 }
 
 .stage video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
   display: none;
 }
 
 .stage canvas {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .countdown {
@@ -199,9 +193,27 @@ html, body {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  z-index: 50;
+  z-index: 100;
 }
 .result-panel.hidden { display: none; }
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  background: rgba(255,255,255,0.15);
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 110;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.close-btn:active { transform: scale(0.9); }
 .result-panel canvas {
   width: 100%;
   max-width: 400px;

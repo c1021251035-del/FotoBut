@@ -10,11 +10,11 @@ const Camera = {
 
   async start() {
     if (this.stream) this.stop();
-    if (!navigator.mediaDevices?.getUserMedia) throw new Error('No camera support');
+    if (!navigator.mediaDevices?.getUserMedia) throw new Error('getUserMedia tidak didukung browser ini');
 
     try {
       this.stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: this.facing, width: { ideal: 1920 }, height: { ideal: 1080 } },
+        video: { facingMode: this.facing, width: { ideal: 1280 }, height: { ideal: 720 } },
         audio: false
       });
       this.video.srcObject = this.stream;
@@ -25,7 +25,7 @@ const Camera = {
         this.facing = 'user';
         return this.start();
       }
-      throw new Error('Camera: ' + e.message);
+      throw new Error(e.message);
     }
   },
 
