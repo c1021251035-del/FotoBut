@@ -463,4 +463,19 @@ const App = {
   }
 };
 
-document.addEventListener('DOMContentLoaded', () => App.boot());
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    await App.boot();
+  } catch (e) {
+    console.error('Boot failed:', e);
+    // Fallback UI: show retry button
+    document.getElementById('stage').innerHTML = `
+      <div style="text-align:center;padding:40px;color:#eee">
+        <div style="font-size:48px;margin-bottom:16px">⚠️</div>
+        <div style="font-size:18px;margin-bottom:8px">Gagal memuat aplikasi</div>
+        <div style="font-size:13px;color:#8899aa;margin-bottom:20px">${e.message || 'Unknown error'}</div>
+        <button onclick="location.reload()" style="background:#e94560;border:none;color:#fff;padding:12px 32px;border-radius:24px;font-size:16px;cursor:pointer">🔄 Coba Lagi</button>
+      </div>
+    `;
+  }
+});

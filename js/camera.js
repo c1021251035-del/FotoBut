@@ -12,6 +12,10 @@ const Camera = {
   async start() {
     if (this.stream) this.stop();
 
+    if (!navigator.mediaDevices?.getUserMedia) {
+      throw new Error('Browser tidak mendukung akses kamera (getUserMedia tidak tersedia)');
+    }
+
     const constraints = {
       video: {
         facingMode: this.facing,
@@ -28,13 +32,12 @@ const Camera = {
       this.checkTorch();
       return true;
     } catch (e) {
-      console.error('Camera init failed:', e);
-      // Fallback: try user-facing
+      // Try fallback: user-facing camera
       if (this.facing === 'environment') {
         this.facing = 'user';
         return this.start();
       }
-      throw e;
+      throw new Error('Kamera tidak tersedia: ' + e.message);
     }
   },
 

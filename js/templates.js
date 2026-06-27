@@ -42,11 +42,16 @@ const TemplateManager = {
     const ext = src.split('.').pop().toLowerCase();
     if (ext === 'svg' || ext === 'png') {
       const img = new Image();
-      img.crossOrigin = 'anonymous';
+      // Same-origin di GitHub Pages, jangan pakai crossOrigin biar ga gagal
       img.src = `./assets/borders/${src}`;
-      await new Promise((res, rej) => { img.onload = res; img.onerror = rej; });
-      this._loaded[src] = img;
-      return img;
+      try {
+        await new Promise((res, rej) => { img.onload = res; img.onerror = rej; });
+        this._loaded[src] = img;
+      } catch {
+        console.warn('Asset load failed (non-blocking):', src);
+        this._loaded[src] = img; // tetap simpan biar ga retry
+      }
+      return this._loaded[src];
     }
     return null;
   },

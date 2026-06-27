@@ -17,9 +17,11 @@ const StickerManager = {
     const loaded = await Promise.allSettled(
       all.map(async ({ src, path }) => {
         const img = new Image();
-        img.crossOrigin = 'anonymous';
+        // Same-origin di GitHub Pages — no crossOrigin needed
         img.src = path;
-        await new Promise((res, rej) => { img.onload = res; img.onerror = rej; });
+        try {
+          await new Promise((res) => { img.onload = res; img.onerror = res; });
+        } catch {} // non-blocking
         this._images[src] = img;
       })
     );
