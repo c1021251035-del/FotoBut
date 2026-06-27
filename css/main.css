@@ -9,6 +9,19 @@
   --text-dim: #8899aa;
   --radius: 16px;
   --radius-sm: 8px;
+  --border-color: rgba(255,255,255,0.05);
+}
+
+/* Light mode */
+.light {
+  --bg: #f5f5fa;
+  --surface: #ffffff;
+  --surface2: #e8e8f0;
+  --accent: #e94560;
+  --accent2: #7c5cbf;
+  --text: #1a1a2e;
+  --text-dim: #8888aa;
+  --border-color: rgba(0,0,0,0.08);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }

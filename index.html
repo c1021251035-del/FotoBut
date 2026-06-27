@@ -6,13 +6,17 @@
   <meta name="theme-color" content="#1a1a2e">
   <meta name="description" content="Fotobut — Web photobooth with fun borders">
   <link rel="manifest" href="./manifest.json">
+   <link rel="icon" type="image/svg+xml" href="./icons/icon.svg">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="apple-touch-startup-image" href="./icons/splash.svg" media="(device-width: 414px) and (device-height: 896px)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Fotobut — Photobooth</title>
   <link rel="stylesheet" href="./css/main.css">
   <link rel="stylesheet" href="./css/templates.css">
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Bangers&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="">
 
 <div class="app" id="app">
 
@@ -20,6 +24,8 @@
   <header class="header">
     <h1>📸 Fotobut</h1>
     <div class="header-actions">
+      <button class="btn btn-icon" id="btn-theme" title="Theme">🌙</button>
+      <button class="btn btn-icon" id="btn-sound" title="Sound">🔊</button>
       <button class="btn btn-icon" id="btn-gallery" title="Gallery">🖼️</button>
       <button class="btn btn-icon" id="btn-torch" style="display:none" title="Torch">🔦</button>
     </div>

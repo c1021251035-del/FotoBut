@@ -37,6 +37,8 @@ const App = {
       editorBtn: document.getElementById('btn-editor'),
       galleryBtn: document.getElementById('btn-gallery'),
       galleryModal: document.getElementById('gallery-modal'),
+      soundBtn: document.getElementById('btn-sound'),
+      themeBtn: document.getElementById('btn-theme'),
       filterBar: document.getElementById('effect-filters'),
       templateBar: document.getElementById('template-bar'),
       togglePanel: document.getElementById('toggle-panel'),
@@ -88,6 +90,17 @@ const App = {
       alert('Camera tidak tersedia. Pastikan izinkan akses kamera.');
     }
 
+    // Init sound state
+    if (Sound.isMuted()) {
+      this.els.soundBtn.textContent = '🔇';
+    }
+    // Init theme state
+    const dark = localStorage.getItem('fotobut_theme') !== 'light';
+    if (!dark) {
+      document.body.classList.add('light');
+      this.els.themeBtn.textContent = '☀️';
+    }
+
     this._bindEvents();
     this._renderLoop();
 
@@ -113,6 +126,8 @@ const App = {
     this.els.editorBtn?.addEventListener('click', () => {
       this.templateEditor?.enter();
     });
+    this.els.soundBtn?.addEventListener('click', () => this._toggleSound());
+    this.els.themeBtn?.addEventListener('click', () => this._toggleTheme());
 
     // Template bar
     this._renderTemplateBar();
@@ -285,6 +300,18 @@ const App = {
       TemplateManager.templates.unshift(...customs);
       this._renderTemplateBar();
     }
+  },
+
+  _toggleSound() {
+    const muted = Sound.isMuted();
+    Sound.setMuted(!muted);
+    this.els.soundBtn.textContent = !muted ? '🔇' : '🔊';
+  },
+
+  _toggleTheme() {
+    const isLight = document.body.classList.toggle('light');
+    localStorage.setItem('fotobut_theme', isLight ? 'light' : 'dark');
+    this.els.themeBtn.textContent = isLight ? '☀️' : '🌙';
   },
 
   _renderTemplateBar() {

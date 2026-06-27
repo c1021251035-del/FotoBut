@@ -1,5 +1,6 @@
 const Sound = {
   _ctx: null,
+  _muted: false,
 
   _getCtx() {
     if (!this._ctx) this._ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -7,7 +8,22 @@ const Sound = {
     return this._ctx;
   },
 
+  setMuted(muted) {
+    this._muted = !!muted;
+    try { localStorage.setItem('fotobut_sound_muted', this._muted ? '1' : '0'); } catch {}
+  },
+
+  isMuted() {
+    if (this._muted) return true;
+    try { return localStorage.getItem('fotobut_sound_muted') === '1'; } catch { return false; }
+  },
+
+  _enabled() {
+    try { return localStorage.getItem('fotobut_sound_muted') !== '1'; } catch { return true; }
+  },
+
   _play(wave, freq, duration, type = 'sine', gain = 0.3) {
+    if (!this._enabled()) return;
     try {
       const ctx = this._getCtx();
       const osc = ctx.createOscillator();
