@@ -1,0 +1,7 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <text x="100" y="160" text-anchor="middle" font-size="170" fill="#ffd93d">✨</text>
+  <path d="M20 100 Q60 60 100 100 Q140 60 180 100" fill="none" stroke="#ffd93d" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="100" cy="30" r="6" fill="#ffd93d"/>
+  <circle cx="50" cy="60" r="4" fill="#ffeaa7"/>
+  <circle cx="150" cy="60" r="4" fill="#ffeaa7"/>
+</svg>

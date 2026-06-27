@@ -1,0 +1,44 @@
+<svg viewBox="0 0 1080 1350" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="vintageShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#5d4e37" flood-opacity="0.2"/>
+    </filter>
+    <filter id="paperTexture" x="0" y="0" width="1080" height="1350" filterUnits="userSpaceOnUse">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix in="noise" type="saturate" values="0"/>
+      <feBlend in="SourceGraphic" in2="noise" mode="multiply"/>
+    </filter>
+  </defs>
+
+  <!-- Paper texture background -->
+  <rect x="0" y="0" width="1080" height="1350" fill="#f5e6d3" filter="url(#paperTexture)"/>
+
+  <!-- Photo mat (cream border around photo) -->
+  <rect x="100" y="100" width="880" height="800" fill="#fdf8f0" rx="8" filter="url(#vintageShadow)"/>
+
+  <!-- Inner photo area -->
+  <rect x="112" y="112" width="856" height="776" fill="#e8dcc8" rx="4"/>
+
+  <!-- Decorative corners -->
+  <g stroke="#c9b896" stroke-width="3" fill="none">
+    <!-- Top-left -->
+    <path d="M120 100 L120 140 M100 120 L140 120"/>
+    <!-- Top-right -->
+    <path d="M960 100 L960 140 M940 120 L980 120"/>
+    <!-- Bottom-left -->
+    <path d="M120 880 L120 920 M100 900 L140 900"/>
+    <!-- Bottom-right -->
+    <path d="M960 880 L960 920 M940 900 L980 900"/>
+  </g>
+
+  <!-- Tape pieces (washed out) -->
+  <g opacity="0.4">
+    <!-- Top tape -->
+    <ellipse cx="540" cy="100" rx="80" ry="20" fill="#e8dcc8" transform="rotate(-2, 540, 100)"/>
+    <!-- Left tape -->
+    <ellipse cx="100" cy="500" rx="20" ry="60" fill="#e8dcc8" transform="rotate(5, 100, 500)"/>
+  </g>
+
+  <!-- Date stamp area (bottom) -->
+  <rect x="0" y="1150" width="1080" height="200" fill="#ebe0cf" opacity="0.5"/>
+</svg>

@@ -1,0 +1,21 @@
+{
+  "id": "film-strip",
+  "name": "Film Strip",
+  "category": "classic",
+  "version": 1,
+  "preview": "film-strip-preview.svg",
+  "canvas": { "width": 1080, "height": 1920, "background": "#111" },
+  "photoSlots": [
+    { "id": "1", "x": 8, "y": 5, "width": 84, "height": 22, "borderRadius": 4, "rotation": 0, "index": 0 },
+    { "id": "2", "x": 8, "y": 29, "width": 84, "height": 22, "borderRadius": 4, "rotation": 0, "index": 1 },
+    { "id": "3", "x": 8, "y": 53, "width": 84, "height": 22, "borderRadius": 4, "rotation": 0, "index": 2 },
+    { "id": "4", "x": 8, "y": 77, "width": 84, "height": 22, "borderRadius": 4, "rotation": 0, "index": 3 }
+  ],
+  "textSlots": [
+    { "id": "label", "x": 50, "y": 96, "maxWidth": 90, "fontSize": 28, "fontFamily": "'Courier New', monospace", "color": "#fff", "align": "center", "editable": true, "defaultText": "FILM STRIP" }
+  ],
+  "stickerZones": [],
+  "decorations": [
+    { "type": "svg", "src": "film-strip-frame.svg", "x": 0, "y": 0, "width": 100, "height": 100, "rotation": 0, "zIndex": 10 }
+  ]
+}

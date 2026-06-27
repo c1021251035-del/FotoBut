@@ -1,0 +1,22 @@
+<svg viewBox="0 0 1080 1350" xmlns="http://www.w3.org/2000/svg">
+  <!-- Comic panel borders - thick black outlines -->
+  <rect x="0" y="0" width="1080" height="1350" fill="#fff"/>
+  <!-- Panel outlines -->
+  <rect x="50" y="45" width="470" height="600" fill="none" stroke="#000" stroke-width="12"/>
+  <rect x="560" y="45" width="470" height="600" fill="none" stroke="#000" stroke-width="12"/>
+  <rect x="50" y="705" width="470" height="600" fill="none" stroke="#000" stroke-width="12"/>
+  <rect x="560" y="705" width="470" height="600" fill="none" stroke="#000" stroke-width="12"/>
+
+  <!-- Halftone dot pattern overlay -->
+  <defs>
+    <pattern id="halftone" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="6" cy="6" r="2" fill="#ddd" opacity="0.3"/>
+    </pattern>
+  </defs>
+  <rect x="0" y="0" width="1080" height="1350" fill="url(#halftone)"/>
+
+  <!-- Decorative starburst bottom area -->
+  <g transform="translate(540, 1200)" opacity="0.15">
+    <polygon points="0,-120 30,-40 120,-40 50,10 70,90 0,40 -70,90 -50,10 -120,-40 -30,-40" fill="#cc0000"/>
+  </g>
+</svg>

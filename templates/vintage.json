@@ -1,0 +1,21 @@
+{
+  "id": "vintage",
+  "name": "Vintage",
+  "category": "classic",
+  "version": 1,
+  "preview": "vintage-preview.svg",
+  "canvas": { "width": 1080, "height": 1350, "background": "#f5e6d3" },
+  "photoSlots": [
+    { "id": "main", "x": 10, "y": 8, "width": 80, "height": 65, "borderRadius": 8, "rotation": -1.5, "index": 0 }
+  ],
+  "textSlots": [
+    { "id": "caption", "x": 50, "y": 88, "maxWidth": 85, "fontSize": 32, "fontFamily": "'Caveat', cursive", "color": "#5d4e37", "align": "center", "editable": true, "defaultText": "memories..." },
+    { "id": "date", "x": 50, "y": 94, "maxWidth": 85, "fontSize": 20, "fontFamily": "'Courier New', monospace", "color": "#8b7355", "align": "center", "editable": false, "defaultText": "" }
+  ],
+  "stickerZones": [
+    { "id": "zone1", "x": 5, "y": 82, "width": 90, "height": 15, "draggable": true, "maxStickers": 4 }
+  ],
+  "decorations": [
+    { "type": "svg", "src": "vintage-frame.svg", "x": 0, "y": 0, "width": 100, "height": 100, "rotation": 0, "zIndex": 10 }
+  ]
+}

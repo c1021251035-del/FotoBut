@@ -1,0 +1,112 @@
+<svg viewBox="0 0 1080 1350" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="xmasGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="pineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1b4d3e"/>
+      <stop offset="100%" stop-color="#0d2a1f"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Deep forest background -->
+  <rect x="0" y="0" width="1080" height="1350" fill="url(#pineGradient)"/>
+
+  <!-- Snow overlay -->
+  <g fill="#fff" opacity="0.9">
+    <circle cx="50" cy="80" r="3"/>
+    <circle cx="200" cy="150" r="2"/>
+    <circle cx="400" cy="60" r="4"/>
+    <circle cx="600" cy="120" r="2"/>
+    <circle cx="800" cy="40" r="3"/>
+    <circle cx="950" cy="90" r="2"/>
+    <circle cx="150" cy="300" r="3"/>
+    <circle cx="350" cy="250" r="2"/>
+    <circle cx="550" cy="400" r="4"/>
+    <circle cx="750" cy="350" r="2"/>
+    <circle cx="900" cy="500" r="3"/>
+    <circle cx="100" cy="600" r="2"/>
+    <circle cx="300" cy="700" r="4"/>
+    <circle cx="500" cy="800" r="2"/>
+    <circle cx="700" cy="900" r="3"/>
+    <circle cx="900" cy="1000" r="2"/>
+  </g>
+
+  <!-- Pine tree border left -->
+  <g fill="#2d5a4a">
+    <path d="M30 100 L80 100 L55 40 L30 100 Z"/>
+    <path d="M25 120 L85 120 L55 70 L25 120 Z"/>
+    <path d="M20 140 L90 140 L55 100 L20 140 Z"/>
+    <path d="M15 160 L95 160 L55 130 L15 160 Z"/>
+    <rect x="48" y="160" width="15" height="30" fill="#5d3a1a"/>
+  </g>
+
+  <!-- Pine tree border right (mirrored) -->
+  <g fill="#2d5a4a" transform="translate(1080,0) scale(-1,1)">
+    <path d="M30 100 L80 100 L55 40 L30 100 Z"/>
+    <path d="M25 120 L85 120 L55 70 L25 120 Z"/>
+    <path d="M20 140 L90 140 L55 100 L20 140 Z"/>
+    <path d="M15 160 L95 160 L55 130 L15 160 Z"/>
+    <rect x="48" y="160" width="15" height="30" fill="#5d3a1a"/>
+  </g>
+
+  <!-- Gold ornamental border top -->
+  <g stroke="#ffd700" stroke-width="4" fill="none" filter="url(#xmasGlow)">
+    <path d="M100 30 Q200 50 300 30 Q400 10 500 30 Q600 50 700 30 Q800 10 900 30 Q950 50 980 30"/>
+  </g>
+
+  <!-- Gold ornamental border bottom -->
+  <g stroke="#ffd700" stroke-width="4" fill="none" filter="url(#xmasGlow)" transform="translate(0,1350) scale(1,-1)">
+    <path d="M100 30 Q200 50 300 30 Q400 10 500 30 Q600 50 700 30 Q800 10 900 30 Q950 50 980 30"/>
+  </g>
+
+  <!-- Candy cane corners -->
+  <g transform="translate(60, 60)">
+    <path d="M0 0 Q30 0 30 30 Q30 60 0 60" fill="none" stroke="#c00" stroke-width="6"/>
+    <path d="M6 12 Q20 12 20 24 Q20 36 6 36" fill="none" stroke="#fff" stroke-width="2"/>
+    <path d="M6 30 Q20 30 20 42 Q20 54 6 54" fill="none" stroke="#fff" stroke-width="2"/>
+  </g>
+
+  <g transform="translate(1020, 60) scale(-1,1)">
+    <path d="M0 0 Q30 0 30 30 Q30 60 0 60" fill="none" stroke="#c00" stroke-width="6"/>
+    <path d="M6 12 Q20 12 20 24 Q20 36 6 36" fill="none" stroke="#fff" stroke-width="2"/>
+    <path d="M6 30 Q20 30 20 42 Q20 54 6 54" fill="none" stroke="#fff" stroke-width="2"/>
+  </g>
+
+  <!-- Bottom candy canes -->
+  <g transform="translate(60, 1290) rotate(180)">
+    <path d="M0 0 Q30 0 30 30 Q30 60 0 60" fill="none" stroke="#c00" stroke-width="6"/>
+    <path d="M6 12 Q20 12 20 24 Q20 36 6 36" fill="none" stroke="#fff" stroke-width="2"/>
+    <path d="M6 30 Q20 30 20 42 Q20 54 6 54" fill="none" stroke="#fff" stroke-width="2"/>
+  </g>
+
+  <g transform="translate(1020, 1290) scale(-1,1) rotate(180)">
+    <path d="M0 0 Q30 0 30 30 Q30 60 0 60" fill="none" stroke="#c00" stroke-width="6"/>
+    <path d="M6 12 Q20 12 20 24 Q20 36 6 36" fill="none" stroke="#fff" stroke-width="2"/>
+    <path d="M6 30 Q20 30 20 42 Q20 54 6 54" fill="none" stroke="#fff" stroke-width="2"/>
+  </g>
+
+  <!-- Star top center -->
+  <polygon points="540,25 555,60 590,60 560,85 575,120 540,105 505,120 520,85 490,60 525,60" fill="#ffd700" filter="url(#xmasGlow)"/>
+
+  <!-- Ornaments on border -->
+  <g>
+    <circle cx="150" cy="50" r="12" fill="#c00" filter="url(#xmasGlow)"/>
+    <circle cx="300" cy="50" r="10" fill="#008000" filter="url(#xmasGlow)"/>
+    <circle cx="450" cy="50" r="12" fill="#ffd700" filter="url(#xmasGlow)"/>
+    <circle cx="600" cy="50" r="10" fill="#c00" filter="url(#xmasGlow)"/>
+    <circle cx="750" cy="50" r="12" fill="#008000" filter="url(#xmasGlow)"/>
+    <circle cx="900" cy="50" r="10" fill="#ffd700" filter="url(#xmasGlow)"/>
+
+    <circle cx="150" cy="1300" r="12" fill="#008000" filter="url(#xmasGlow)"/>
+    <circle cx="300" cy="1300" r="10" fill="#ffd700" filter="url(#xmasGlow)"/>
+    <circle cx="450" cy="1300" r="12" fill="#c00" filter="url(#xmasGlow)"/>
+    <circle cx="600" cy="1300" r="10" fill="#008000" filter="url(#xmasGlow)"/>
+    <circle cx="750" cy="1300" r="12" fill="#ffd700" filter="url(#xmasGlow)"/>
+    <circle cx="900" cy="1300" r="10" fill="#c00" filter="url(#xmasGlow)"/>
+  </g>
+
+  <!-- "Merry Christmas" text area hint (bottom) -->
+  <text x="540" y="1280" text-anchor="middle" font-family="'Caveat', cursive" font-size="28" fill="#ffd700" opacity="0.3">Your photo here</text>
+</svg>

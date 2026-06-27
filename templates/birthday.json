@@ -1,0 +1,21 @@
+{
+  "id": "birthday",
+  "name": "Birthday",
+  "category": "events",
+  "version": 1,
+  "preview": "birthday-preview.svg",
+  "canvas": { "width": 1080, "height": 1350, "background": "#fff8e7" },
+  "photoSlots": [
+    { "id": "main", "x": 10, "y": 8, "width": 80, "height": 55, "borderRadius": 16, "rotation": 1, "index": 0 }
+  ],
+  "textSlots": [
+    { "id": "name", "x": 50, "y": 78, "maxWidth": 85, "fontSize": 48, "fontFamily": "'Bangers', cursive", "color": "#ff6b6b", "align": "center", "editable": true, "defaultText": "Happy Birthday!" },
+    { "id": "age", "x": 50, "y": 88, "maxWidth": 85, "fontSize": 36, "fontFamily": "'Orbitron', sans-serif", "color": "#ffd93d", "align": "center", "editable": true, "defaultText": "🎂 25" }
+  ],
+  "stickerZones": [
+    { "id": "zone1", "x": 5, "y": 5, "width": 90, "height": 15, "draggable": true, "maxStickers": 5 }
+  ],
+  "decorations": [
+    { "type": "svg", "src": "birthday-frame.svg", "x": 0, "y": 0, "width": 100, "height": 100, "rotation": 0, "zIndex": 10 }
+  ]
+}
